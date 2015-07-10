@@ -44,6 +44,7 @@ signals:
 	// External
 	void vi_start();
 	void vi_stop();
+	void viz(cv::Mat const& f, double ts);
 
 private:
 	state state_		= STOPPED;

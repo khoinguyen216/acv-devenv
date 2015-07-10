@@ -84,6 +84,7 @@ void video_out::setopt(QString const& o, QString const& v) {
 }
 
 void video_out::frame(cv::Mat const& f, double ts) {
+	qDebug() << objectName() << "frame";
 	QMetaObject::invokeMethod(fs_, "frame",
 							  Q_ARG(cv::Mat, f),
 							  Q_ARG(double, ts));

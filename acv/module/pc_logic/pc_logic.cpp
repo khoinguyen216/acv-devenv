@@ -32,7 +32,9 @@ QHash<QString, module_socket> pc_logic_socks{
 				{"error", "error(QDateTime const&, QString const&)"},
 				{"info", "info(QDateTime const&, QString const&)"}}}},
 		{"vin",    {false,  {
-				{"frame", "on_frame(cv::Mat const&, double)"}}}}
+				{"frame", "on_frame(cv::Mat const&, double)"}}}},
+		{"viz",    {true,  {
+				{"frame", "viz(cv::Mat const&, double)"}}}}
 };
 
 pc_logic::pc_logic() {
@@ -179,6 +181,7 @@ void pc_logic::on_frame(cv::Mat const& f, double ts) {
 		cv::resize(wI, wI, Size(0, 0), displayScale, displayScale);
 
 		imshow("result", wI);
+		emit viz(wI, ts);
 	}
 
 	prevframe_ = currframe;

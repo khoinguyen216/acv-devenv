@@ -111,9 +111,6 @@ void peoplecount::setup() {
 	QMetaObject::invokeMethod(logic, "setopt", Qt::AutoConnection,
 			Q_ARG(QString, "cntio"),
 			Q_ARG(QString, "0,0,1,0.6;0,0.6,1,1;"));
-
-	QMetaObject::invokeMethod(vo, "start", Qt::AutoConnection);
-	QMetaObject::invokeMethod(logic, "start", Qt::AutoConnection);
 }
 
 void peoplecount::configure_cmdparser(QCommandLineParser& p) {
