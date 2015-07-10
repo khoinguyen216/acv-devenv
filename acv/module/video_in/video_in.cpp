@@ -38,7 +38,6 @@ video_in::video_in()
 
 	optionlist_ = &video_in_opts;
 	socketlist_ = &video_in_socks;
-	qDebug() << "video_in";
 
 	workthread_ = new QThread(this);
 	workthread_->start();

@@ -29,7 +29,6 @@ video_out::video_out() {
 
 	optionlist_ = &video_out_opts;
 	socketlist_ = &video_out_socks;
-	qDebug() << "video_out";
 }
 
 video_out::~video_out() {

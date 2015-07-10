@@ -10,10 +10,10 @@ link_directories(
 
 set(HEADER_FILES
 	app.h cable_info.h event.h module.h module_factory.h
-	module_graph.h script_if.h)
+	module_graph.h script_cmd.h script_if.h)
 set(SOURCE_FILES main.cpp app.cpp cable_info.cpp event.cpp
 	module.cpp module_factory.cpp
-	module_graph.cpp script_if.cpp)
+	module_graph.cpp script_cmd.cpp script_if.cpp)
 
 add_executable(${MOD_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 qt5_use_modules(${MOD_NAME} Core Network)

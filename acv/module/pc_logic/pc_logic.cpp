@@ -36,9 +36,9 @@ QHash<QString, module_socket> pc_logic_socks{
 };
 
 pc_logic::pc_logic() {
+	qRegisterMetaType<cv::Mat>("cv::Mat");
 	optionlist_ = &pc_logic_opts;
 	socketlist_ = &pc_logic_socks;
-	qDebug() << "pc_logic";
 }
 
 pc_logic::~pc_logic() {

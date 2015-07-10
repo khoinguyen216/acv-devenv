@@ -3,6 +3,8 @@
 #include <cassert>
 #include <cstring>
 
+#include "script_cmd.h"
+
 extern "C" {
 #include <lua.h>
 #include <lauxlib.h>
@@ -20,6 +22,8 @@ script_if::script_if(QObject *parent) : QObject(parent) {
 	L_ = luaL_newstate();
 	luaL_openlibs(L_);
 	chunkbuf_ = new char[MAX_CHUNK_LENGTH];
+
+	lua_register_cmds(L_);
 }
 
 script_if::~script_if() {

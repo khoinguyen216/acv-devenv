@@ -22,8 +22,23 @@ bool app::add_module(QString const& id, QString const& modtype) {
 void app::remove_module(QString const &id) {
 }
 
-void app::setopt(QString const& id, QString const& o, QString const& v) {
+bool app::start_module(QString const &id) {
+	module* m = module_graph_.get_module(id);
+	if (m == NULL)
+		return false;
 
+	QMetaObject::invokeMethod(m, "start", Qt::AutoConnection);
+	return true;
+}
+
+bool app::setopt(QString const& id, QString const& o, QString const& v) {
+	module* m = module_graph_.get_module(id);
+	if (m == NULL)
+		return false;
+
+	QMetaObject::invokeMethod(m, "setopt", Qt::AutoConnection,
+		Q_ARG(QString, o), Q_ARG(QString, v));
+	return true;
 }
 
 bool app::add_cable(QString const &e0, QString const &e1) {
@@ -33,4 +48,5 @@ bool app::add_cable(QString const &e0, QString const &e1) {
 
 	return module_graph_.add_cable(c);
 }
+
 }

@@ -38,7 +38,8 @@ public:
 	virtual bool add_module(QString const& id, QString const& modtype);
 	virtual bool add_cable(QString const& e0, QString const& e1);
 	virtual void remove_module(QString const& id);
-	virtual void setopt(QString const& id, QString const& o, QString const& v);
+	virtual bool start_module(QString const& id);
+	virtual bool setopt(QString const& id, QString const& o, QString const& v);
 
 protected:
 	QHash<QString, module*> modules_;
