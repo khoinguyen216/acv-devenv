@@ -1,0 +1,3 @@
+add_subdirectory(video_in)
+add_subdirectory(video_out)
+add_subdirectory(pc_logic)

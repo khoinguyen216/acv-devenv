@@ -1,0 +1,21 @@
+set(BOOST_ROOT ~/lib/boost_1_58_0)
+set(OpenCV_DIR ~/lib/opencv-2.4.10-release/share/OpenCV)
+set(FFmpeg_INCLUDE_DIRS ~/lib/ffmpeg_build/include)
+set(FFmpeg_LIBDIR	~/lib/ffmpeg_build/lib)
+set(FFmpeg_LIBRARIES avcodec avdevice avformat avutil swresample swscale x264)
+set(Eigen_INCLUDE_DIRS ~/lib/eigen-eigen-10219c95fe65)
+set(FFTW3_ROOT ~/lib/fftw-3.3.4)
+set(LiveMedia_INCLUDE_DIRS
+	~/lib/live-release/include/groupsock
+	~/lib/live-release/include/liveMedia
+	~/lib/live-release/include/BasicUsageEnvironment
+	~/lib/live-release/include//UsageEnvironment)
+set(LiveMedia_LIBDIR ~/lib/live-release/lib)
+set(LiveMedia_LIBRARIES groupsock liveMedia BasicUsageEnvironment UsageEnvironment)
+set(Lua_INCLUDE_DIRS ~/lib/lua-5.3.1/install/include)
+set(Lua_LIBDIR ~/lib/lua-5.3.1/install/lib)
+set(Lua_LIBRARIES lua)
+
+list(APPEND CMAKE_PREFIX_PATH 
+	~/lib/qt-5.4.1/lib/cmake/Qt5 
+	~/lib/libxml2-2.9.2)
