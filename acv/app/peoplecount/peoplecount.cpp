@@ -82,6 +82,7 @@ void peoplecount::setup() {
 	add_cable("vi.status", "logic.vi_status");
 	add_cable("vi.vout", "logic.vin");
 	add_cable("logic.vi_control", "vi.control");
+	add_cable("vi.vout", "vo.vin");
 
 	module* vi = module_graph_.get_module("vi");
 	QMetaObject::invokeMethod(vi, "setopt", Qt::AutoConnection,
@@ -98,6 +99,11 @@ void peoplecount::setup() {
 			Q_ARG(QString, "read_timeout"),
 			Q_ARG(QString, "5"));
 
+	module* vo = module_graph_.get_module("vo");
+	QMetaObject::invokeMethod(vo, "setopt", Qt::AutoConnection,
+			Q_ARG(QString, "dest"),
+			Q_ARG(QString, "/home/nguyen/test.avi"));
+
 	module* logic = module_graph_.get_module("logic");
 	QMetaObject::invokeMethod(logic, "setopt", Qt::AutoConnection,
 			Q_ARG(QString, "mdsize"),
@@ -106,7 +112,8 @@ void peoplecount::setup() {
 			Q_ARG(QString, "cntio"),
 			Q_ARG(QString, "0,0,1,0.6;0,0.6,1,1;"));
 
-	//QMetaObject::invokeMethod(logic, "start", Qt::AutoConnection);
+	QMetaObject::invokeMethod(vo, "start", Qt::AutoConnection);
+	QMetaObject::invokeMethod(logic, "start", Qt::AutoConnection);
 }
 
 void peoplecount::configure_cmdparser(QCommandLineParser& p) {
