@@ -19,6 +19,7 @@ peoplecount::peoplecount(int& argc, char** argv) : app(argc, argv) {
 	setApplicationName("peoplecount");
 	setApplicationVersion(PC_VERSION);
 
+	parser_ = new QCommandLineParser();
 	module_factory_ = new module_factory();
 }
 
@@ -26,36 +27,35 @@ peoplecount::~peoplecount() {
 }
 
 void peoplecount::preprocess_cmdargs() {
-	QCommandLineParser p;
 	// Default options
-	auto const& help_opt = p.addHelpOption();
-	auto const& ver_opt = p.addVersionOption();
+	auto const& help_opt = parser_->addHelpOption();
+	auto const& ver_opt = parser_->addVersionOption();
 
-	configure_cmdparser(p);
+	configure_cmdparser();
 
-	if (!p.parse(arguments())) {
-		QTextStream(stderr) << p.errorText();
+	if (!parser_->parse(arguments())) {
+		QTextStream(stderr) << parser_->errorText();
 		exit(EXIT_FAILURE);
 	}
 
-	if (p.isSet(help_opt)) {
-		p.showHelp(EXIT_SUCCESS);
+	if (parser_->isSet(help_opt)) {
+		parser_->showHelp(EXIT_SUCCESS);
 		Q_UNREACHABLE();
 	}
-	if (p.isSet(ver_opt)) {
-		p.showVersion();
+	if (parser_->isSet(ver_opt)) {
+		parser_->showVersion();
 		Q_UNREACHABLE();
 	}
-	if (p.isSet("listmodules")) {
+	if (parser_->isSet("listmodules")) {
 		QTextStream(stdout) << "Available modules\n";
 		for (auto const& m : module_factory_->list()) {
 			QTextStream(stdout) << "\t" << m << "\n";
 		}
 		std::exit(EXIT_SUCCESS);
 	}
-	if (p.isSet("scriptport")) {
+	if (parser_->isSet("scriptport")) {
 		bool ok;
-		int port = p.value("scriptport").toInt(&ok);
+		int port = parser_->value("scriptport").toInt(&ok);
 		if (ok && (port > 1024 && port < 65535)) {
 			script_ = new script_if(this);
 			script_->start_server(port);
@@ -67,7 +67,40 @@ void peoplecount::preprocess_cmdargs() {
 }
 
 void peoplecount::postprocess_cmdargs() {
+	module* vi = module_graph_.get_module("vi");
+	module* vo = module_graph_.get_module("vo");
+	module* logic = module_graph_.get_module("logic");
 
+	if (parser_->isSet("i")) {
+		QMetaObject::invokeMethod(vi, "setopt", Qt::AutoConnection,
+								  Q_ARG(QString, "source"),
+								  Q_ARG(QString, parser_->value("i")));
+	} else {
+		parser_->showHelp(EXIT_FAILURE);
+		Q_UNREACHABLE();
+	}
+
+	if (parser_->isSet("o")) {
+		QString outvid = QString("%1/out.avi").arg(parser_->value("o"));
+		QMetaObject::invokeMethod(vo, "setopt", Qt::AutoConnection,
+								  Q_ARG(QString, "dest"),
+								  Q_ARG(QString, outvid));
+	}
+
+	if (parser_->isSet("cntio")) {
+		QMetaObject::invokeMethod(logic, "setopt", Qt::AutoConnection,
+								  Q_ARG(QString, "cntio"),
+								  Q_ARG(QString, parser_->value("cntio")));
+	} else {
+		parser_->showHelp(EXIT_FAILURE);
+		Q_UNREACHABLE();
+	}
+
+	if (parser_->isSet("ss")) {
+
+	}
+
+	delete parser_;
 }
 
 void peoplecount::load_config() {
@@ -85,10 +118,9 @@ void peoplecount::setup() {
 	add_cable("vi.vout", "vo.vin");
 
 	module* vi = module_graph_.get_module("vi");
-	QMetaObject::invokeMethod(vi, "setopt", Qt::AutoConnection,
-		  	Q_ARG(QString, "source"),
-			Q_ARG(QString, "/home/nguyen/clipboard/LevisHK_Cam6_12012014140000"
-					".MP4"));
+	module* vo = module_graph_.get_module("vo");
+	module* logic = module_graph_.get_module("logic");
+
 	QMetaObject::invokeMethod(vi, "setopt", Qt::AutoConnection,
 			Q_ARG(QString, "recover"),
 			Q_ARG(QString, "yes"));
@@ -99,30 +131,32 @@ void peoplecount::setup() {
 			Q_ARG(QString, "read_timeout"),
 			Q_ARG(QString, "5"));
 
-	module* vo = module_graph_.get_module("vo");
-	QMetaObject::invokeMethod(vo, "setopt", Qt::AutoConnection,
-			Q_ARG(QString, "dest"),
-			Q_ARG(QString, "/home/nguyen/test.avi"));
-
-	module* logic = module_graph_.get_module("logic");
 	QMetaObject::invokeMethod(logic, "setopt", Qt::AutoConnection,
 			Q_ARG(QString, "mdsize"),
 			Q_ARG(QString, "160x120"));
-	QMetaObject::invokeMethod(logic, "setopt", Qt::AutoConnection,
-			Q_ARG(QString, "cntio"),
-			Q_ARG(QString, "0,0,1,0.6;0,0.6,1,1;"));
 }
 
-void peoplecount::configure_cmdparser(QCommandLineParser& p) {
-	p.setApplicationDescription("KAI Square ACV");
-	p.setSingleDashWordOptionMode(
+void peoplecount::start_main_modules() {
+	module* vi = module_graph_.get_module("vi");
+	module* logic = module_graph_.get_module("logic");
+
+	QMetaObject::invokeMethod(vi, "start", Qt::AutoConnection);
+	QMetaObject::invokeMethod(logic, "start", Qt::AutoConnection);
+}
+
+void peoplecount::configure_cmdparser() {
+	parser_->setApplicationDescription("KAI Square ACV");
+	parser_->setSingleDashWordOptionMode(
 			QCommandLineParser::ParseAsLongOptions);
 
-	p.addOptions({
+	parser_->addOptions({
 		{"app", "Application to run"},
 		{"listmodules", "List all available modules"},
 		{"scriptport", "Start scripting interface over TCP", "port"},
 		{"i", "Input video source (file | http | rtsp)", "url"},
+		{"o", "Output directory", "dirpath"},
+		{"cntio", "Cntio parameter", "param"},
+		{"ss", "Save segmentation"},
 		{"recover", "Recover from video source error"}
 	});
 }

@@ -34,6 +34,7 @@ public:
 	virtual void postprocess_cmdargs() = 0;
 	virtual void load_config() = 0;
 	virtual void setup() = 0;
+	virtual void start_main_modules() = 0;
 
 	virtual bool add_module(QString const& id, QString const& modtype);
 	virtual bool add_cable(QString const& e0, QString const& e1);

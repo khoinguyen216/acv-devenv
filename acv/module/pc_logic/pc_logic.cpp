@@ -134,7 +134,7 @@ void pc_logic::on_frame(cv::Mat const& f, double ts) {
 	trackmgr_->UpdateBackgroundImage(currframe, objects.size());
 	trackmgr_->Visualize(disp_frame);
 
-	pc_event evt{};
+	pc_event evt;
 	for (int i = 0; i < objects.size(); i++) {
 		cv::rectangle(disp_frame, objects[i].bb, CV_RGB(0, 0, 255), 2);
 		// Draw direction

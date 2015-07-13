@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
 	app->load_config();
 	app->setup();
 	app->postprocess_cmdargs();
+	app->start_main_modules();
 
 	int retcode = app->exec();
 	delete app;

@@ -24,12 +24,14 @@ public:
 	void postprocess_cmdargs() override;
 	void load_config() override;
 	void setup() override;
+	void start_main_modules() override;
 
 private:
-	void configure_cmdparser(QCommandLineParser& p);
+	void configure_cmdparser();
 
 private:
-	script_if*		script_;
+	QCommandLineParser*	parser_;
+	script_if*			script_;
 };
 
 }

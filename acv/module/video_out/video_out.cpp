@@ -48,9 +48,7 @@ void video_out::start() {
 		return;
 
 	if (dest_.startsWith("rtsp://")) {
-		//fs_ = new rtsp_source(source_);
 	} else if (dest_.startsWith("http://")) {
-		//fs_ = new http_mjpg_source(source_);
 	} else {
 		fs_ = new file_sink(dest_, fps_, w_, h_);
 	}
@@ -84,7 +82,6 @@ void video_out::setopt(QString const& o, QString const& v) {
 }
 
 void video_out::frame(cv::Mat const& f, double ts) {
-	qDebug() << objectName() << "frame";
 	QMetaObject::invokeMethod(fs_, "frame",
 							  Q_ARG(cv::Mat, f),
 							  Q_ARG(double, ts));
