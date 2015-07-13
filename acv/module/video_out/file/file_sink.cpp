@@ -13,7 +13,7 @@ file_sink::~file_sink() {
 
 void file_sink::start() {
 	writer_ = new cv::VideoWriter();
-	cv::Size sz{w_, h_};
+	cv::Size sz{(int)w_, (int)h_};
 	if (writer_->open(dest_.toStdString(),
 					  CV_FOURCC('F', 'L', 'V', '1'), fps_, sz, true)) {
 		emit started();
