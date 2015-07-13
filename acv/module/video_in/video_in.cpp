@@ -4,6 +4,11 @@
 #include <QThread>
 #include <QTimer>
 
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+}
+
 #include "rtsp/rtsp_source.h"
 #include "video/video_source.h"
 
@@ -35,6 +40,8 @@ QHash<QString, module_socket> video_in_socks {
 video_in::video_in()
 {
 	qRegisterMetaType<cv::Mat>("cv::Mat");
+
+	av_register_all();
 
 	optionlist_ = &video_in_opts;
 	socketlist_ = &video_in_socks;
