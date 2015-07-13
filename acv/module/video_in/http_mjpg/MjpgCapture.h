@@ -45,7 +45,7 @@ static inline int closesocket(int fd) { return close(fd); }
 
 
 void PRINTERR(std::string msg);
-std::vector<std::string> ssplit(const std::string &s, char delim);
+std::vector<std::string> zssplit(const std::string &s, char delim);
 std::string Base64Encode(const std::string &orig);
 
 template <class T>

@@ -27,7 +27,8 @@ void PRINTERR(std::string msg)
 }
 
 
-std::vector<std::string> &ssplit(const std::string &s, char delim, std::vector<std::string> &elems) {
+std::vector<std::string> &zssplit(const std::string &s, char delim,
+								  std::vector<std::string> &elems) {
 	std::stringstream ss(s);
 	std::string item;
 	while(getline(ss, item, delim)) {
@@ -35,9 +36,9 @@ std::vector<std::string> &ssplit(const std::string &s, char delim, std::vector<s
 	}
 	return elems;
 }
-std::vector<std::string> ssplit(const std::string &s, char delim) {
+std::vector<std::string> zssplit(const std::string &s, char delim) {
 	std::vector<std::string> elems;
-	return ssplit(s, delim, elems);
+	return zssplit(s, delim, elems);
 }
 static const char kBase64Chars[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 static const char kBase64CharsReversed[128] = {
@@ -109,7 +110,7 @@ void MjpgCapture::init()
 	//cout<<"using "+url<<endl;
 	_url.replace(_url.find("http://"), 7, "");
 	std::string pass="";
-	std::vector<std::string> upsplit= ssplit(_url,'@');
+	std::vector<std::string> upsplit= zssplit(_url,'@');
 	if(upsplit.size()>2)
 	{
 		throw std::string("malformed url");
@@ -120,10 +121,10 @@ void MjpgCapture::init()
 		pass = upsplit[0];
 		_url = upsplit[1];
 	}
-	std::vector<std::string> splitted = ssplit(_url,'/');
+	std::vector<std::string> splitted = zssplit(_url,'/');
 	std::string host=splitted[0];
 
-	std::vector<std::string> hostplusport = ssplit(host,':');
+	std::vector<std::string> hostplusport = zssplit(host,':');
 	_url.replace(_url.find(splitted[0]), splitted[0].size(), "");
 	std::string path = _url;
 	std::string hoststr = hostplusport[0];

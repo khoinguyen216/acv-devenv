@@ -8,13 +8,13 @@ include_directories(
 set(HEADER_FILES
 	video_in.h
 	frame_source.h
-	#http_mjpg/http_mjpg_source.h
+	http_mjpg/http_mjpg_source.h
 	rtsp/rtsp_source.h
 	rtsp/sched_thread.h
 	video/video_source.h)
 set(SOURCE_FILES video_in.cpp
-	#http_mjpg/http_mjpg_source.cpp
-	#http_mjpg/MjpgCapture.cpp
+	http_mjpg/http_mjpg_source.cpp
+	http_mjpg/MjpgCapture.cpp
 	rtsp/DecoderSink.cpp
 	rtsp/MPRTSPClient.cpp
 	rtsp/rtsp_handlers.cpp
