@@ -9,6 +9,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 
+#include "http_mjpg/http_mjpg_source.h"
 #include "rtsp/rtsp_source.h"
 #include "video/video_source.h"
 
@@ -66,7 +67,7 @@ void video_in::start() {
 	if (source_.startsWith("rtsp://")) {
 		fs_ = new rtsp_source(source_);
 	} else if (source_.startsWith("http://")) {
-		//fs_ = new http_mjpg_source(source_);
+		fs_ = new http_mjpg_source(source_);
 	} else {
 		fs_ = new video_source(source_);
 	}
