@@ -338,7 +338,7 @@ void TrackingManager::Visualize(Mat& displayImage)
 	}
 	
 
-	//ss << "total " << m_nTargets;
+	ss << "total " << m_nTargets;
 
 	for(size_t j=0;j<g_cntios.size();j++) {
 		ss << g_cntios[j].d2 << ", " << g_cntios[j].d1 << "; ";
