@@ -115,7 +115,7 @@ void peoplecount::setup() {
 	add_cable("vi.status", "logic.vi_status");
 	add_cable("vi.vout", "logic.vin");
 	add_cable("logic.vi_control", "vi.control");
-	add_cable("vi.vout", "vo.vin");
+	add_cable("logic.viz", "vo.vin");
 
 	module* vi = module_graph_.get_module("vi");
 	module* vo = module_graph_.get_module("vo");
@@ -131,6 +131,10 @@ void peoplecount::setup() {
 			Q_ARG(QString, "read_timeout"),
 			Q_ARG(QString, "5"));
 
+	QMetaObject::invokeMethod(vo, "setopt", Qt::AutoConnection,
+			Q_ARG(QString, "size"),
+			Q_ARG(QString, "320x240"));
+
 	QMetaObject::invokeMethod(logic, "setopt", Qt::AutoConnection,
 			Q_ARG(QString, "mdsize"),
 			Q_ARG(QString, "160x120"));
@@ -138,9 +142,11 @@ void peoplecount::setup() {
 
 void peoplecount::start_main_modules() {
 	module* vi = module_graph_.get_module("vi");
+	module* vo = module_graph_.get_module("vo");
 	module* logic = module_graph_.get_module("logic");
 
 	QMetaObject::invokeMethod(vi, "start", Qt::AutoConnection);
+	QMetaObject::invokeMethod(vo, "start", Qt::AutoConnection);
 	QMetaObject::invokeMethod(logic, "start", Qt::AutoConnection);
 }
 
