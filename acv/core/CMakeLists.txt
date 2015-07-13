@@ -26,3 +26,7 @@ target_link_libraries(${MOD_NAME} peoplecount
 	${Boost_LIBRARIES} ${FFmpeg_LIBRARIES} ${LiveMedia_LIBRARIES}
 	${Lua_LIBRARIES}
 	${OpenCV_LIBRARIES})
+
+if(MSVC)
+target_link_libraries(${MOD_NAME} ws2_32)
+endif()

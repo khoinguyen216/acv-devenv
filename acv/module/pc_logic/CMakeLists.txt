@@ -33,6 +33,8 @@ set(SOURCE_FILES
 	MotionDetection.cpp
 	TrackingManager.cpp)
 
+add_definitions(-DLBPDETECTOR_API_STATIC )
+
 add_library(${MOD_NAME} STATIC ${HEADER_FILES} ${SOURCE_FILES}
 			${LBPDetector_SRCS} ${ThreadManager_SRCS})
 qt5_use_modules(${MOD_NAME} Core)
